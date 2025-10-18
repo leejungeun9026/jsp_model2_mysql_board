@@ -41,7 +41,7 @@ public class ListController extends HttpServlet {
 		MVCBoardDAO dao = new MVCBoardDAO();
 		ArrayList<MVCBoardDTO> boardList = dao.selectBoard(search);
 		dao.close();
-		
+
 		request.setAttribute("boardList", boardList);		
 		request.getRequestDispatcher("/board/List.jsp").forward(request, response);
 	}

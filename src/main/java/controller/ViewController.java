@@ -1,14 +1,16 @@
 package controller;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import dao.MVCBoardDAO;
+import dto.MVCBoardDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-import dao.MVCBoardDAO;
-import dto.MVCBoardDTO;
 
 /**
  * Servlet implementation class ViewController
@@ -33,9 +35,29 @@ public class ViewController extends HttpServlet {
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		MVCBoardDAO dao = new MVCBoardDAO();
+		dao.updateVisitCount(Integer.parseInt(request.getParameter("idx")));
 		MVCBoardDTO board = dao.selectOne(Integer.parseInt(request.getParameter("idx")));
+		dao.close();
+
+		// 줄바꿈 처리
+		board.setContent(board.getContent().replace("\r\n", "<br>"));
+		
+		// 첨부파일 확장자 추출 및 이미지 타입 확인
+		// 이미지일 경우에만 보여줌
+		String ext = null;
+		String fileName = board.getSfile();
+		if(fileName!=null) {
+			ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+		}
+		String[] mimeStr = {"png", "jpg", "gif"};
+		List<String> mimeList = Arrays.asList(mimeStr);
+		boolean isImage = false;
+		if(mimeList.contains(ext)) {
+			isImage = true;
+		}
 		
 		request.setAttribute("board", board);
+		request.setAttribute("isImage", isImage);
 		request.getRequestDispatcher("/board/View.jsp").forward(request, response);
 	}
 

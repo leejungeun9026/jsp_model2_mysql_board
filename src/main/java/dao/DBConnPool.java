@@ -42,7 +42,7 @@ public class DBConnPool {
 			if(stmt!=null) stmt.close();
 			if(psmt!=null) psmt.close();
 			if(con!=null) con.close();
-			System.out.println("DB 커넥션 풀 자원 반납");
+			System.out.println("DB 자원 반납");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

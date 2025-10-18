@@ -28,13 +28,19 @@
 	</tr>
 	<tr>
 		<td>내용</td>
-		<td colspan="3">
-			${ board.content }
+		<td colspan="3">${ board.content }<br>
+			<c:if test="${ not empty board.ofile and isImage eq true }">	
+				<img alt="${ board.ofile }" src="./Uploads/${ board.sfile }" style="display:block; width:100%; max-width: 500px;">
+			</c:if>
 		</td>
 	</tr>
 	<tr>
 		<td>첨부파일</td>
-		<td>${ board.ofile }</td>
+		<td>
+			<c:if test="${ not empty board.ofile }">
+				<a href="./download.do?ofile=${ board.ofile }&sfile=${ board.sfile }&idx=${ board.idx}">${ board.ofile }</a>
+			</c:if>
+		</td>
 		<td>다운 횟수</td>
 		<td>${ board.downcount }</td>
 	</tr>

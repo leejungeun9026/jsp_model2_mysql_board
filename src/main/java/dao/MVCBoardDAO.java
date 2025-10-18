@@ -61,13 +61,47 @@ public class MVCBoardDAO extends DBConnPool {
 				board.setPostdate(rs.getTimestamp("postdate"));
 				board.setVisitcount(rs.getInt("visitcount"));
 				board.setDowncount(rs.getInt("downcount"));
-				System.out.println("1개 가져오기 완료");
+				System.out.println("selectOne.....");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO: handle exception
 		}		
 		return board;
+	}
+	
+	public int updateVisitCount(int idx) {
+		int result = 0;
+		String sql = "update mvcboard set visitcount = visitcount + 1 where idx = ?";
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setInt(1, idx);
+			result = psmt.executeUpdate();
+			if(result == 0) {
+				System.out.println("visitcount+1......");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return result;
+	}
+	
+	public int updateDownCount(int idx) {
+		int result = 0;
+		String sql = "update mvcboard set downcount = downcount + 1 where idx = ?";
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setInt(1, idx);
+			result = psmt.executeUpdate();
+			if(result == 1) {
+				System.out.println("downcount+1......");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return result;
 	}
 	
 	public int insertBoard(MVCBoardDTO board) {
